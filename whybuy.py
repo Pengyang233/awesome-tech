@@ -7,6 +7,7 @@ class WhyBuy():
         self.homepage ='https://www.smzdm.com/jingxuan/'
         self.page_num = 1
 
+    #返回参数是request.response.
     def get_html(self, url):
         header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
         html = requests.get(url, headers=header)
@@ -16,6 +17,7 @@ class WhyBuy():
             exit()
         return html
         
+    #解析当前url中的相关信息，这里必须是相关的网页，不是很鲁棒
     def get_goods_info(self, html):
         goods_url = []
         goods_name = []
@@ -27,6 +29,7 @@ class WhyBuy():
             goods_name.append(i.find('a').text)
         return goods_name, goods_url
 
+    #翻页，暂定只翻页十页
     def turn_page(self):
         self.page_num = 1 + self.page_num
         next_url = 'https://www.smzdm.com/jingxuan/p'+str(self.page_num)+'/'
