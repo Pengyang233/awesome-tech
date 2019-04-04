@@ -1,3 +1,4 @@
+#待解决问题:写入excel表格中，能否直接提取出价格，关键字索引查询和提醒，能否邮件提醒？更加鲁棒，异常处理等。
 import requests
 from bs4 import BeautifulSoup
 import re
