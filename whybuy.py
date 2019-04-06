@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import pandas as pd
 
 class WhyBuy():
     def __init__(self):
@@ -38,6 +39,9 @@ class WhyBuy():
             print('The page is 10, we will exit')
             exit()
         
+    def writeCsv(self, names, urls, prices=0):
+        dataframe = pd.DataFrame({'Names':names, 'urls':urls})
+        dataframe.to_csv('goods_info.csv', encoding='utf_8_sig')
     
 
 
@@ -47,3 +51,4 @@ if __name__ == '__main__':
     html = money.get_html(money.homepage)
     temp_goods_name, temp_goods_urls = money.get_goods_info(html)
     print(temp_goods_name)
+    money.writeCsv(temp_goods_name, temp_goods_urls)
