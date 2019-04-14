@@ -1,4 +1,4 @@
-#待解决问题:写入excel表格中，能否直接提取出价格，关键字索引查询和提醒，能否邮件提醒？更加鲁棒，异常处理等。
+#待解决问题:写入csv并定期删除和覆盖，删除过期的数据，能否直接提取出价格，关键字索引查询和提醒，能否邮件提醒？更加鲁棒，异常处理等。
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -39,7 +39,12 @@ class WhyBuy():
             print('The page is 10, we will exit')
             exit()
         
-    def writeCsv(self, names, urls, prices=0):
+    def writeCsv(self, names, urls, pagenum, prices=0):
+        if pagenum == 1:
+            with open('goods_info.csv', 'r+') as f:
+                f.truncate()
+
+
         dataframe = pd.DataFrame({'Names':names, 'urls':urls})
         dataframe.to_csv('goods_info.csv', encoding='utf_8_sig')
     
@@ -51,4 +56,4 @@ if __name__ == '__main__':
     html = money.get_html(money.homepage)
     temp_goods_name, temp_goods_urls = money.get_goods_info(html)
     print(temp_goods_name)
-    money.writeCsv(temp_goods_name, temp_goods_urls)
+    money.writeCsv(temp_goods_name, temp_goods_urls, money.page_num)
